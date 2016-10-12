@@ -1,9 +1,9 @@
 package com.invoiceasap.testproject.dagger;
 
-import com.invoiceasap.testproject.UploadingIntentService;
+import com.invoiceasap.testproject.UpdatingIntentService;
 import dagger.Module;
 
-@Module(injects = { UploadingIntentService.class}, library = false,
+@Module(injects = { UpdatingIntentService.class}, library = false,
         addsTo = AppModule.class)
 public class ServiceModule {
 }

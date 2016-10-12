@@ -2,8 +2,6 @@ package com.invoiceasap.testproject.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,18 +21,16 @@ public class LocationsMapView extends com.google.android.gms.maps.MapView {
   private static GoogleMap mMap;
   @Inject PlatformUtils platformUtils;
   private Realm realm;
-  private Handler handler = new Handler();
+  private RealmResults<PlaceItem> result;
 
   public LocationsMapView(Context context) {
     super(context, new GoogleMapOptions());
-    Log.e("Michael", "LocationsMapView");
     realm = Realm.getDefaultInstance();
   }
 
   @Override
   protected void onAttachedToWindow() {
     super.onAttachedToWindow();
-    Log.e("Michael", "onAttachedToWindow");
     if (platformUtils.checkPlayServices()) setupMap();
   }
 
@@ -54,13 +50,12 @@ public class LocationsMapView extends com.google.android.gms.maps.MapView {
   }
 
   private void initMap(GoogleMap map) {
-    Log.e("Michael", "initMap");
     mMap = map;
     fetchData();
   }
 
   private void fetchData() {
-    RealmResults<PlaceItem> result = realm.where(PlaceItem.class).findAllAsync();
+    result = realm.where(PlaceItem.class).findAllAsync();
     result.addChangeListener(this::showPlaces);
   }
 

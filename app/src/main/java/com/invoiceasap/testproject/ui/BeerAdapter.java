@@ -12,11 +12,13 @@ import com.invoiceasap.testproject.models.BeerItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.ViewHolder> {
+class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.ViewHolder> {
   private List<BeerItem> mDataset = new ArrayList<>();
+
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_beer_row, parent, false);
+    View v =
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_beer_row, parent, false);
     return new ViewHolder(v);
   }
 
@@ -32,7 +34,7 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.ViewHolder> {
     return mDataset.size();
   }
 
-  public void setDataset(List<BeerItem> beerItems){
+  void setDataset(List<BeerItem> beerItems) {
     mDataset.clear();
     mDataset.addAll(beerItems);
     notifyDataSetChanged();
@@ -42,7 +44,7 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.ViewHolder> {
     @Bind(R.id.name) TextView nameView;
     @Bind(R.id.type) TextView typeView;
 
-    public ViewHolder(View itemView) {
+    ViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
     }

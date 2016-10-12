@@ -10,6 +10,7 @@ import io.realm.RealmResults;
 public class BeerListView extends RecyclerView {
   private BeerAdapter adapter;
   private Realm realm;
+  private RealmResults<BeerItem> result;
 
   public BeerListView(Context context) {
     super(context, null);
@@ -22,10 +23,11 @@ public class BeerListView extends RecyclerView {
   protected void onAttachedToWindow() {
     super.onAttachedToWindow();
     realm = Realm.getDefaultInstance();
-    RealmResults<BeerItem> result = realm.where(BeerItem.class)
+    result = realm.where(BeerItem.class)
         .findAllAsync();
     result.addChangeListener(adapter::setDataset);
   }
+
 
   @Override
   protected void onDetachedFromWindow() {

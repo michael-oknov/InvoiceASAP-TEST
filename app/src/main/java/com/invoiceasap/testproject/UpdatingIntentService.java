@@ -12,18 +12,18 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import retrofit2.Response;
 
-public class UploadingIntentService extends InjectingIntentService {
+public class UpdatingIntentService extends InjectingIntentService {
   @Inject TestApi testApi;
   @Inject AlarmManager alarmManager;
   private Realm realm;
 
-  public UploadingIntentService() {
-    super("UploadingIntentService");
+  public UpdatingIntentService() {
+    super("UpdatingIntentService");
   }
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    Intent nextIntent = new Intent(this, UploadingIntentService.class);
+    Intent nextIntent = new Intent(this, UpdatingIntentService.class);
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, nextIntent, 0);
     alarmManager.cancel(pendingIntent);
     realm = Realm.getDefaultInstance();

@@ -27,7 +27,7 @@
       android:value="@string/google_maps_key" />
 
     <service
-      android:name=".UploadingIntentService"
+      android:name=".UpdatingIntentService"
       android:exported="false">
     </service>
   </application>

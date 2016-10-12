@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.invoiceasap.testproject.UploadingIntentService;
 import com.invoiceasap.testproject.R;
+import com.invoiceasap.testproject.UpdatingIntentService;
 import com.invoiceasap.testproject.dagger.ActivityModule;
 import com.invoiceasap.testproject.ui.base.InjectingToolbarActivity;
 import com.invoiceasap.testproject.ui.base.ViewPagerAdapter;
@@ -17,9 +17,8 @@ import dagger.Module;
 
 public class MainActivity extends InjectingToolbarActivity {
 
-  private SectionsPagerAdapter mSectionsPagerAdapter;
-
   @Bind(R.id.container) ViewPager mViewPager;
+  private SectionsPagerAdapter mSectionsPagerAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +34,27 @@ public class MainActivity extends InjectingToolbarActivity {
 
     TabLayout tabLayout = ButterKnife.findById(this, R.id.tabs);
     tabLayout.setupWithViewPager(mViewPager);
-    startService(new Intent(this, UploadingIntentService.class));
-
+    startService(new Intent(this, UpdatingIntentService.class));
   }
 
+  @Override
+  protected Object getModule() {
+    return new DaggerModule();
+  }
+
+  @Module(
+      injects = { BeerListView.class, LocationsMapView.class, MainActivity.class },
+      addsTo = ActivityModule.class)
+  public static class DaggerModule {
+
+  }
 
   public class SectionsPagerAdapter extends ViewPagerAdapter {
 
     @Override
     public View getView(int position, ViewPager pager) {
       View v;
-      switch (position){
+      switch (position) {
         case 0:
           v = new BeerListView(MainActivity.this);
           getObjectGraph().inject(v);
@@ -67,31 +76,18 @@ public class MainActivity extends InjectingToolbarActivity {
 
     @Override
     public CharSequence getPageTitle(int position) {
-      String title;
-      switch (position){
+      int stringId;
+      switch (position) {
         case 0:
-          title = "List";
+          stringId = R.string.list;
           break;
         case 1:
-          title = "Map";
+          stringId = R.string.map;
           break;
         default:
-          title = "No name";
+          stringId = R.string.no_name;
       }
-      return title;
+      return getString(stringId);
     }
   }
-
-  @Override
-  protected Object getModule() {
-    return new DaggerModule();
-  }
-
-  @Module(
-      injects = { BeerListView.class, LocationsMapView.class, MainActivity.class},
-      addsTo = ActivityModule.class)
-  public static class DaggerModule {
-
-  }
-
 }
